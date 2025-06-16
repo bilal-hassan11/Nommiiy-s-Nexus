@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: Inter;
+    /* LEFT INTENTIONALY */
+    /* background: linear-gradient(to bottom, #dae6fe, #ffffff); */
+    /* background-repeat: no-repeat; */
+}
+
+@layer components {
+    h3 {
+        @apply text-xl md:text-2xl font-bold;
+    }
+
+    h2 {
+        @apply text-2xl md:text-4xl font-semibold;
+    }
+
+    h4 {
+        @apply text-base md:text-xl font-bold;
+    }
+
+    h5 {
+        @apply text-base font-semibold;
+    }
+
+    /* Conditional scrollbar styles */
+    .scrollable {
+        overflow-y: auto; /* Only show scrollbar if content overflows */
+    }
+
+    .scrollable::-webkit-scrollbar {
+        width: 6px;
+    height: 6px;
+
+    }
+
+    .scrollable::-webkit-scrollbar-thumb {
+        background-color: #afafaf;
+        border-radius: 4px;
+
+    }
+
+    .scrollable::-webkit-scrollbar-track {
+        background-color: #d3d3d3;
+    }
+
+}
