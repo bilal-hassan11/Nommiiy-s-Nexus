@@ -1,4 +1,4 @@
-# Affiliate Web Application
+# Nommiiy's Nexus Web Application
 
 This project is a web application built using **Laravel** (as a backend API) and **Vue.js** (as the frontend). This guide will walk you through setting up and running the project locally.
 
