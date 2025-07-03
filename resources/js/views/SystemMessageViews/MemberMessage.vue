@@ -1,14 +1,18 @@
 <template>
+  <SentToMemberModal v-model="showMemberModal" @submit="handleFormSubmit"/>
+  <SentToGroupModal v-model="showGroupModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
     <div class="col-lg-9 col-md-6 col-sm-12">
       <h2 class="form-title">System Message</h2>
       <p class="breadcrumb">System Message > <strong>Mission Daily Settings</strong></p>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-12 d-flex align-items-center justify-content-end">
-      <button class="btn tag-btn me-2">Sent To Group</button>
+      <button class="btn tag-btn me-2" @click="showGroupModal = true">Sent To Group</button>
       <button
           v-if="selectedTab === 'memberMessage'"
           class="btn btn-outline-dark custom-btn me-2"
+          @click="showMemberModal = true"
       >
         Sent To Member
       </button>
@@ -39,9 +43,18 @@
 import {ref} from "vue";
 import MemberMessage from "@/views/SystemMessageViews/SubComponents/MemberMessage.vue";
 import GroupMessage from "@/views/SystemMessageViews/SubComponents/GroupMessage.vue";
+import SentToMemberModal from "@/views/SystemMessageViews/modals/SentToMemberModal.vue";
+import SentToGroupModal from "@/views/SystemMessageViews/modals/SentToGroupModal.vue";
 
 const selectedTab = ref("memberMessage");
 const selectedRadio = ref(null);
+const showMemberModal = ref(false);
+const showGroupModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 const tabs = ref([
   {label: "Member Message", value: "memberMessage"},

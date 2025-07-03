@@ -1,17 +1,21 @@
 <template>
+  <BankMappingModal v-model="showBankMappingModal" @submit="handleFormSubmit"/>
+  <AddThirdPartyPaymentPlatformModal v-model="showAddModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
     <div class="col-lg-3 col-md-12 col-sm-12">
       <h2 class="form-title">Bank/Payment</h2>
       <p class="breadcrumb">Bank/Payment > <strong>Third Party Payment Platform</strong></p>
     </div>
     <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap gap-2">
-      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center"
+              @click="showAddModal = true">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
-      <button class="btn tag-btn me-2 ">Bank Mapping</button>
-      <button class="btn tag-btn me-2 ">Account Log</button>
-      <button class="btn tag-btn me-2 ">Update Sequence</button>
+      <button class="btn tag-btn me-2 " @click="showBankMappingModal = true">Bank Mapping</button>
+      <button class="btn tag-btn me-2 " @click="this.$router.push('/account-log');">Account Log</button>
+      <button class="btn tag-btn me-2 " @click="handleClick">Update Sequence</button>
     </div>
   </div>
 
@@ -81,10 +85,17 @@
 
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {CirclePlus} from "lucide-vue-next";
 import "vue-multiselect/dist/vue-multiselect.css";
 import Multiselect from "vue-multiselect";
+import {useNotificationStore} from '@/stores/notification'
+import BankMappingModal from "@/views/BankPaymentViews/modals/BankMappingModal.vue";
+import AddThirdPartyPaymentPlatformModal from "@/views/BankPaymentViews/modals/AddThirdPartyPaymentPlatformModal.vue";
+
+const notification = useNotificationStore();
+const showBankMappingModal = ref(false);
+const showAddModal = ref(false);
 
 const currencies = ref(["BDT", "NPR"]);
 const form = ref({
@@ -102,6 +113,22 @@ const clearForm = () => {
   form.value.merchant = "MJB";
   form.value.paymentType = "All";
 };
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData);
+  // Optional: push into members list or send API request
+};
+
+onMounted(() => {
+  const accountLog = history.state?.accountLog;
+  if (accountLog) {
+    handleFormSubmit(accountLog);
+  }
+});
+
+function handleClick() {
+  notification.triggerSuccess()
+}
 </script>
 
 

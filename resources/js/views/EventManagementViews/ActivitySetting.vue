@@ -17,7 +17,8 @@
         </ul>
       </div>
 
-      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2"
+              @click="this.$router.push('/activity-setting-sub-page');">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
@@ -86,7 +87,7 @@
 
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
 import {CirclePlus} from "lucide-vue-next";
 import Multiselect from "vue-multiselect";
@@ -97,6 +98,18 @@ const form = ref({
   activityName: "",
   activityType: "All",
   currency: "",
+});
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData);
+  // Optional: push into members list or send API request
+};
+
+onMounted(() => {
+  const newActivitySetting = history.state?.newActivitySetting;
+  if (newActivitySetting) {
+    handleFormSubmit(newActivitySetting);
+  }
 });
 
 const currencies = ref(["BDT", "NPR"]);

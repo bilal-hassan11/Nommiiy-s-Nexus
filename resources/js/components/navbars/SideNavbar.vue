@@ -3,7 +3,8 @@ import {ref, computed} from "vue";
 import {useRoute} from "vue-router";
 import {
   BadgeCheck, Banknote, Boxes, CalendarClock, ChevronRight, Clock, Crown, Dot, Gift,
-  Goal, Home, Mail, Megaphone, Network, Star, Tag, Trophy, UsersRound, Wallet
+  Goal, Home, Mail, Megaphone, Network, Star, Tag, Trophy, UsersRound, Wallet, Box, Settings, BriefcaseBusiness,
+  FileQuestion
 } from "lucide-vue-next";
 import {useNotificationStore} from '@/stores/notification';
 import {storeToRefs} from 'pinia';
@@ -1018,6 +1019,331 @@ const isActive = (path) => computed(() => route.path === path);
             to="/affiliate-postback-url" class="text-decoration-none">
           <span v-if="isActive('/affiliate-postback-url').value">
             <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 16.8 Affiliate Postback URL
+        </router-link>
+      </li>
+    </ul>
+
+    <li class="display-flex align-items-center" @click="toggleSubmenu('affiliate-commission')">
+      <Box size="18" stroke-width="2" class="icon"/>
+      17. Affiliate Comm
+      <ChevronRight size="14" stroke-width="2" class="chevron-icon ml-1 mt-1 mb-1 mr-1"
+                    :class="{ open: openSubmenus['affiliate-commission'] }"/>
+    </li>
+    <ul v-if="openSubmenus['affiliate-commission']" class="submenu">
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-generate-commission').value,
+             'text-secondary': !isActive('/affiliate-generate-commission').value }"
+            to="/affiliate-generate-commission" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-generate-commission').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.1 Affiliate Generate Comm
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-commission-history').value,
+             'text-secondary': !isActive('/affiliate-commission-history').value }"
+            to="/affiliate-commission-history" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-commission-history').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.2 Affiliate Commission History
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-withdrawal').value,
+             'text-secondary': !isActive('/affiliate-withdrawal').value }"
+            to="/affiliate-withdrawal" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-withdrawal').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.3 Affiliate Withdrawal
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-withdrawal-history').value,
+             'text-secondary': !isActive('/affiliate-withdrawal-history').value }"
+            to="/affiliate-withdrawal-history" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-withdrawal-history').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.4 Affiliate Withdrawal History
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-deposit').value,
+             'text-secondary': !isActive('/affiliate-deposit').value }"
+            to="/affiliate-deposit" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-deposit').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.5 Affiliate Deposit
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-transfer-history').value,
+             'text-secondary': !isActive('/affiliate-transfer-history').value }"
+            to="/affiliate-transfer-history" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-transfer-history').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.6 Affiliate Transfer History
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-adjustment').value,
+             'text-secondary': !isActive('/affiliate-adjustment').value }"
+            to="/affiliate-adjustment" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-adjustment').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.7 Affiliate Adjustment
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-currency-rate-setting').value,
+             'text-secondary': !isActive('/affiliate-currency-rate-setting').value }"
+            to="/affiliate-currency-rate-setting" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-currency-rate-setting').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 17.8 Affiliate Currency Rate Setting
+        </router-link>
+      </li>
+    </ul>
+
+    <li class="display-flex align-items-center" @click="toggleSubmenu('system-settings')">
+      <Settings size="18" stroke-width="2" class="icon"/>
+      18. System Settings
+      <ChevronRight size="14" stroke-width="2" class="chevron-icon ml-1 mt-1 mb-1 mr-1"
+                    :class="{ open: openSubmenus['system-settings'] }"/>
+    </li>
+    <ul v-if="openSubmenus['system-settings']" class="submenu">
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/game-provider').value,
+             'text-secondary': !isActive('/game-provider').value }"
+            to="/game-provider" class="text-decoration-none">
+          <span v-if="isActive('/game-provider').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.1 Game Provider
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/department').value,
+             'text-secondary': !isActive('/department').value }"
+            to="/department" class="text-decoration-none">
+          <span v-if="isActive('/department').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.2 Department
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/agent').value,
+             'text-secondary': !isActive('/agent').value }"
+            to="/agent" class="text-decoration-none">
+          <span v-if="isActive('/agent').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.3 Agent
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/advertisement').value,
+             'text-secondary': !isActive('/advertisement').value }"
+            to="/advertisement" class="text-decoration-none">
+          <span v-if="isActive('/advertisement').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.4 Advertisement
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/ip-whitelist').value,
+             'text-secondary': !isActive('/ip-whitelist').value }"
+            to="/ip-whitelist" class="text-decoration-none">
+          <span v-if="isActive('/ip-whitelist').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.5 IP Whitelist
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/web-featured-game').value,
+             'text-secondary': !isActive('/web-featured-game').value }"
+            to="/web-featured-game" class="text-decoration-none">
+          <span v-if="isActive('/web-featured-game').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.6 Web Featured Game
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/provider-setting').value,
+             'text-secondary': !isActive('/provider-setting').value }"
+            to="/provider-setting" class="text-decoration-none">
+          <span v-if="isActive('/provider-setting').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.7 Provider Setting
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/export-list').value,
+             'text-secondary': !isActive('/export-list').value }"
+            to="/export-list" class="text-decoration-none">
+          <span v-if="isActive('/export-list').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 18.8 Export List
+        </router-link>
+      </li>
+    </ul>
+
+
+    <li class="display-flex align-items-center" @click="toggleSubmenu('cms')">
+      <BriefcaseBusiness size="18" stroke-width="2" class="icon"/>
+      19. CMS
+      <ChevronRight size="14" stroke-width="2" class="chevron-icon ml-1 mt-1 mb-1 mr-1"
+                    :class="{ open: openSubmenus['cms'] }"/>
+    </li>
+    <ul v-if="openSubmenus['cms']" class="submenu">
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/logo-favicon').value,
+             'text-secondary': !isActive('/logo-favicon').value }"
+            to="/logo-favicon" class="text-decoration-none">
+          <span v-if="isActive('/logo-favicon').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.1 Logo & Favicon
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/banner-settings').value,
+             'text-secondary': !isActive('/banner-settings').value }"
+            to="/banner-settings" class="text-decoration-none">
+          <span v-if="isActive('/banner-settings').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.2 Banner Settings
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/affiliate-banner').value,
+             'text-secondary': !isActive('/affiliate-banner').value }"
+            to="/affiliate-banner" class="text-decoration-none">
+          <span v-if="isActive('/affiliate-banner').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.3 Affiliate Banner
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/seo-metadata').value,
+             'text-secondary': !isActive('/seo-metadata').value }"
+            to="/seo-metadata" class="text-decoration-none">
+          <span v-if="isActive('/seo-metadata').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.4 SEO Metadata
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/seo-scripts-settings').value,
+             'text-secondary': !isActive('/seo-scripts-settings').value }"
+            to="/seo-scripts-settings" class="text-decoration-none">
+          <span v-if="isActive('/seo-scripts-settings').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.5 SEO Scripts Settings
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/seo-footer').value,
+             'text-secondary': !isActive('/seo-footer').value }"
+            to="/seo-footer" class="text-decoration-none">
+          <span v-if="isActive('/seo-footer').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.6 SEO Footer
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/general-info').value,
+             'text-secondary': !isActive('/general-info').value }"
+            to="/general-info" class="text-decoration-none">
+          <span v-if="isActive('/general-info').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.7 General Info
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/event-tracking-code').value,
+             'text-secondary': !isActive('/event-tracking-code').value }"
+            to="/event-tracking-code" class="text-decoration-none">
+          <span v-if="isActive('/event-tracking-code').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.8 Event Tracking Code
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/blog-setting').value,
+             'text-secondary': !isActive('/blog-setting').value }"
+            to="/blog-setting" class="text-decoration-none">
+          <span v-if="isActive('/blog-setting').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 19.9 Blog Setting
+        </router-link>
+      </li>
+    </ul>
+
+    <li class="display-flex align-items-center" @click="toggleSubmenu('compliance')">
+      <FileQuestion size="18" stroke-width="2" class="icon"/>
+      20. Compliance
+      <ChevronRight size="14" stroke-width="2" class="chevron-icon ml-1 mt-1 mb-1 mr-1"
+                    :class="{ open: openSubmenus['compliance'] }"/>
+    </li>
+    <ul v-if="openSubmenus['compliance']" class="submenu">
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/roadblock').value,
+             'text-secondary': !isActive('/roadblock').value }"
+            to="/roadblock" class="text-decoration-none">
+          <span v-if="isActive('/roadblock').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 20.1 Roadblock
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/member-bet-limit').value,
+             'text-secondary': !isActive('/member-bet-limit').value }"
+            to="/member-bet-limit" class="text-decoration-none">
+          <span v-if="isActive('/member-bet-limit').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 20.2 Member Bet Limit
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/group-bet-limit').value,
+             'text-secondary': !isActive('/group-bet-limit').value }"
+            to="/group-bet-limit" class="text-decoration-none">
+          <span v-if="isActive('/group-bet-limit').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 20.3 Group Bet Limit
+        </router-link>
+      </li>
+    </ul>
+
+    <li class="display-flex align-items-center" @click="toggleSubmenu('leaderboardData')">
+      <BriefcaseBusiness size="18" stroke-width="2" class="icon"/>
+      21. Leaderboard Data
+      <ChevronRight size="14" stroke-width="2" class="chevron-icon ml-1 mt-1 mb-1 mr-1"
+                    :class="{ open: openSubmenus['leaderboardData'] }"/>
+    </li>
+    <ul v-if="openSubmenus['leaderboardData']" class="submenu">
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/vip').value,
+             'text-secondary': !isActive('/vip').value }"
+            to="/vip" class="text-decoration-none">
+          <span v-if="isActive('/vip').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 21.1 VIP
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/lucky-spin').value,
+             'text-secondary': !isActive('/lucky-spin').value }"
+            to="/lucky-spin" class="text-decoration-none">
+          <span v-if="isActive('/lucky-spin').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 21.2 Lucky Spin
+        </router-link>
+      </li>
+      <li>
+        <router-link
+            :class="{ 'text-dark': isActive('/top-referral').value,
+             'text-secondary': !isActive('/top-referral').value }"
+            to="/top-referral" class="text-decoration-none">
+          <span v-if="isActive('/top-referral').value">
+            <Dot stroke-width="2" size="30" style="color:#ffcc00"/></span> 21.3 Top Referral
         </router-link>
       </li>
     </ul>

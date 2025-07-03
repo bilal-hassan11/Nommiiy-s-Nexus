@@ -5,7 +5,8 @@
       <p class="breadcrumb">Verify Reward > <strong>Verify Reward Settings</strong></p>
     </div>
     <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
-      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2"
+              @click="this.$router.push('/add-verify-reward-settings');">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
@@ -71,7 +72,7 @@
 
 <script setup>
 import {CirclePlus, Files} from "lucide-vue-next";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import Multiselect from "vue-multiselect";
 
 const currencies = ref(["BDT", "NPR"]);
@@ -87,6 +88,18 @@ const clearForm = () => {
   form.value.merchant = "MJB";
   form.value.status = "All";
 };
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
+
+onMounted(() => {
+  const newVerifyRewardSetting = history.state?.newVerifyRewardSetting;
+  if (newVerifyRewardSetting) {
+    handleFormSubmit(newVerifyRewardSetting);
+  }
+});
 </script>
 
 

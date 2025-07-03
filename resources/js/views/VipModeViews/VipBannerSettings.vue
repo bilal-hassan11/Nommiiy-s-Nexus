@@ -1,4 +1,5 @@
 <template>
+  <BannerSettingModal  v-model="showModal" @submit="handleFormSubmit"/>
   <div class="row align-items-center form-header">
     <!-- Left Side: Title and Breadcrumb -->
     <div class="col-lg-3 col-md-12 col-sm-12">
@@ -8,7 +9,8 @@
 
     <!-- Right Side: All buttons in one line -->
     <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap">
-      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center"
+              @click="showModal = true">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
@@ -59,6 +61,14 @@
 import {ref} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
 import {CirclePlus} from "lucide-vue-next";
+import BannerSettingModal from "@/views/VipModeViews/modals/BannerSettingModal.vue";
+
+const showModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 const form = ref({
   merchant: "MJB",

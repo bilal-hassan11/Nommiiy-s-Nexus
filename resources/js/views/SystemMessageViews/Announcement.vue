@@ -1,8 +1,20 @@
 <template>
+  <AddStyleModal v-model="showAddStyleModal" @submit="handleFormSubmit"/>
+  <AddAnnouncementModal v-model="showAnnouncementModal" @submit="handleFormSubmit"/>
   <div class="row align-items-center form-header">
-    <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="col-lg-7 col-md-4 col-sm-12">
       <h2 class="form-title">System Message</h2>
       <p class="breadcrumb">System Message > <strong>Announcement</strong></p>
+    </div>
+    <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2"
+              @click="showAnnouncementModal = true">
+        <CirclePlus class="me-2" size="16" stroke-width="2"/>
+        Add
+      </button>
+      <button class="btn btn-outline-dark add-btn" @click="showAddStyleModal = true">
+        Add Style
+      </button>
     </div>
   </div>
 
@@ -159,16 +171,25 @@
 
 <script setup>
 import {computed, ref} from "vue";
-import {Download, SquarePen} from "lucide-vue-next";
+import {CirclePlus, Download, SquarePen} from "lucide-vue-next";
 import * as XLSX from "xlsx";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import isBetween from "dayjs/plugin/isBetween";
+import AddStyleModal from "@/views/SystemMessageViews/modals/AddStyleModal.vue";
+import AddAnnouncementModal from "@/views/SystemMessageViews/modals/AddAnnouncementModal.vue";
 
 dayjs.extend(utc);
 dayjs.extend(isBetween);
 
 const selectedDateFilter = ref("All");
+const showAddStyleModal = ref(false);
+const showAnnouncementModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 const form = ref({
   type: "All",
@@ -455,5 +476,13 @@ tr:hover td {
   100% {
     transform: translateX(-100%);
   }
+}
+
+.add-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 25px;
+  cursor: pointer;
+  align-items: center;
 }
 </style>

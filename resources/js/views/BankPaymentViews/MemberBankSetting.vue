@@ -1,15 +1,18 @@
 <template>
+  <ShowMemberBankSettingModal v-model="showMemberBankDetailModal" @submit="handleFormSubmit"/>
+  <BankLimitSetting v-model="showMemberBankLimitModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
     <div class="col-lg-3 col-md-12 col-sm-12">
       <h2 class="form-title">Bank/Payment</h2>
       <p class="breadcrumb">Bank/Payment > <strong>Member's Bank Setting</strong></p>
     </div>
     <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap gap-2">
-      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center" @click="showMemberBankDetailModal = true">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
-      <button class="btn btn-outline-dark add-btn d-flex align-items-center justify-content-center">
+      <button class="btn btn-outline-dark add-btn d-flex align-items-center justify-content-center" @click="showMemberBankLimitModal = true">
         Bank Limit Setting
       </button>
     </div>
@@ -67,6 +70,17 @@ import {ref} from "vue";
 import {CirclePlus} from "lucide-vue-next";
 import "vue-multiselect/dist/vue-multiselect.css";
 import Multiselect from "vue-multiselect";
+import ShowMemberBankSettingModal from "@/views/BankPaymentViews/modals/ShowMemberBankSettingModal.vue";
+import BankLimitSetting from "@/views/BankPaymentViews/modals/BankLimitSetting.vue";
+
+
+const showMemberBankDetailModal = ref(false);
+const showMemberBankLimitModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 const currencies = ref(["BDT", "NPR"]);
 const form = ref({

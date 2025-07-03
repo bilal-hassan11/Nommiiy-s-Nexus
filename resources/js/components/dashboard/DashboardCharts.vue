@@ -219,4 +219,3 @@ const charts = [
   }
 }
 </style>
-

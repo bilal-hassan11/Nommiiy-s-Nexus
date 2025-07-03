@@ -1,8 +1,17 @@
 <template>
+  <SystemNotificationProviderMessageModal v-model="showProviderMessageModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
-    <div class="col-lg-12 col-md-12 col-sm-6">
+    <div class="col-lg-7 col-md-4 col-sm-6">
       <h2 class="form-title">System Message</h2>
       <p class="breadcrumb">System Message > <strong>System Notification</strong></p>
+    </div>
+    <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2"
+              @click="showProviderMessageModal = true">
+        <CirclePlus class="me-2" size="16" stroke-width="2"/>
+        Add
+      </button>
     </div>
   </div>
 
@@ -116,7 +125,16 @@
 
 <script setup>
 import {ref} from "vue";
+import {CirclePlus} from "lucide-vue-next";
+import SystemNotificationProviderMessageModal
+  from "@/views/SystemMessageViews/modals/SystemNotificationProviderMessageModal.vue";
 
+const showProviderMessageModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 const getDefaultDates = () => {
   const today = new Date();
@@ -300,5 +318,11 @@ input, select {
   background: #faeecd !important;
 }
 
-
+.add-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 25px;
+  cursor: pointer;
+  align-items: center;
+}
 </style>

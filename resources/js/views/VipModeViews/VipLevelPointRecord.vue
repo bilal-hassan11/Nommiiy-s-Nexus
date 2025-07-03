@@ -1,25 +1,30 @@
 <template>
+  <EditVipPointsModal v-model="showModal" @submit="handleFormSubmit"/>
 
-   <div class="row align-items-center form-header">
-  <!-- Left Side: Title and Breadcrumb -->
-  <div class="col-lg-3 col-md-12 col-sm-12">
-    <h2 class="form-title">VIP Mode</h2>
-    <p class="breadcrumb">VIP Mode > <strong>VIP Level Point Record</strong></p>
-  </div>
+  <div class="row align-items-center form-header">
+    <!-- Left Side: Title and Breadcrumb -->
+    <div class="col-lg-3 col-md-12 col-sm-12">
+      <h2 class="form-title">VIP Mode</h2>
+      <p class="breadcrumb">VIP Mode > <strong>VIP Level Point Record</strong></p>
+    </div>
 
-  <!-- Right Side: All buttons in one line -->
-  <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap">
-    <button class="btn header-btn border-success text-success me-2 mb-2">Edit VIP Ranking</button>
-    <button class="btn header-btn border-secondary-subtle text-black font-600 me-2 mb-2">Edit
-      VIP Points</button>
+    <!-- Right Side: All buttons in one line -->
+    <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap">
+      <button class="btn header-btn border-success text-success me-2 mb-2"
+              @click="this.$router.push('/edit-vip-ranking');">Edit VIP Ranking
+      </button>
+      <button class="btn header-btn border-secondary-subtle text-black font-600 me-2 mb-2" @click="showModal = true">
+        Edit
+        VIP Points
+      </button>
 
-  </div>
+    </div>
   </div>
 
   <div class="form-container">
     <div class="row gx-3 gy-3">
       <!-- Row 1 -->
-<div class="col-md-6 col-lg-3">
+      <div class="col-md-6 col-lg-3">
         <label>Merchant</label>
         <select v-model="form.merchant" class="form-select">
           <option value="All">All</option>
@@ -67,16 +72,20 @@
           <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('Yesterday')">
             Yesterday
           </button>
-          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('This Week')">This
+          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('This Week')">
+            This
             Week
           </button>
-          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('Last Week')">Last
+          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('Last Week')">
+            Last
             Week
           </button>
-          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('This Month')">This
+          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('This Month')">
+            This
             Month
           </button>
-          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('Last Month')">Last
+          <button class="col-lg-2 col-md-1 recent btn btn-light text-center" @click="filterByDateRange('Last Month')">
+            Last
             Month
           </button>
         </div>
@@ -94,8 +103,23 @@
 
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
+import EditVipPointsModal from "@/views/VipModeViews/modals/EditVipPointsModal.vue";
+
+const showModal = ref(false)
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData);
+  // Optional: push into members list or send API request
+};
+
+onMounted(() => {
+  const newVipRanking = history.state?.newVipRanking;
+  if (newVipRanking) {
+    handleFormSubmit(newVipRanking);
+  }
+});
 
 const form = ref({
   transactionReason: "All",

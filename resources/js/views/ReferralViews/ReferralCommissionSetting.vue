@@ -4,12 +4,6 @@
       <h2 class="form-title">Referral</h2>
       <p class="breadcrumb">Referral > <strong>Referral Commission Setting</strong></p>
     </div>
-    <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
-      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2">
-        <CirclePlus class="me-2" size="16" stroke-width="2"/>
-        Add
-      </button>
-    </div>
   </div>
 
   <div class="form-container">

@@ -1,12 +1,16 @@
 <template>
+  <AddDisplaySettingsModal v-model="showDisplaySettingModal" @submit="handleFormSubmit"/>
   <div class="row align-items-center form-header">
     <div class="col-lg-7 col-md-4 col-sm-6">
       <h2 class="form-title">Angpow</h2>
       <p class="breadcrumb">Angpow > <strong>Angpow Setting</strong></p>
     </div>
     <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
-      <button class="btn tag-btn me-2 ">Display Setting</button>
-      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2">
+      <button class="btn tag-btn me-2" @click="showDisplaySettingModal = true">
+        Display Setting
+      </button>
+      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2"
+              @click="this.$router.push('/add-angpow-setting');">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
@@ -85,8 +89,23 @@
 
 <script setup>
 import {CirclePlus} from "lucide-vue-next";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import Multiselect from "vue-multiselect";
+import AddDisplaySettingsModal from "@/views/AngpowViews/modals/AddDisplaySettingsModal.vue";
+
+const showDisplaySettingModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
+
+onMounted(() => {
+  const newAngpowSetting = history.state?.newAngpowSetting;
+  if (newAngpowSetting) {
+    handleFormSubmit(newAngpowSetting);
+  }
+});
 
 const currencies = ref(["BDT", "NPR"]);
 

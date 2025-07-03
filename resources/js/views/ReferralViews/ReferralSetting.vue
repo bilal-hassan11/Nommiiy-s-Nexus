@@ -1,4 +1,6 @@
 <template>
+  <AddReferralSetting v-model="showModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
     <div class="col-lg-7 col-md-4 col-sm-6">
       <h2 class="form-title">Referral</h2>
@@ -6,7 +8,8 @@
     </div>
     <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
       <button class="btn tag-btn me-2 disabled">Valid Direct Referral</button>
-      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2"
+              @click="showModal = true">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
@@ -48,12 +51,20 @@
 
 
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
 import Multiselect from "vue-multiselect";
 import {CirclePlus} from "lucide-vue-next";
+import AddReferralSetting from "@/views/ReferralViews/modals/AddReferralSetting.vue";
 
 const currencies = ref(["BDT", "NPR"]);
+const showModal = ref(false)
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData);
+  // Optional: push into members list or send API request
+};
+
 
 const form = ref({
   currency: ["BDT", "NPR"],
@@ -64,6 +75,10 @@ const clearForm = () => {
   form.value.currency = ["BDT", "NPR"];
   form.value.merchant = "MJB";
 };
+
+watch(showModal, (val) => {
+  console.log("Modal visibility changed:", val);
+});
 </script>
 
 

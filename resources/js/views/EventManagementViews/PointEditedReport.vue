@@ -1,4 +1,5 @@
 <template>
+  <AdjustActivityPoints v-model="showModal" @submit="handleFormSubmit"/>
   <div class="row align-items-center form-header">
     <div class="col-lg-3 col-md-12 col-sm-12">
       <h2 class="form-title">Event Management</h2>
@@ -6,7 +7,8 @@
     </div>
 
     <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap">
-      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center"
+              @click="showModal = true">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Adjust Activity Points
       </button>
@@ -129,6 +131,7 @@ import {ref, onMounted} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
 import Multiselect from "vue-multiselect";
 import {CirclePlus} from "lucide-vue-next";
+import AdjustActivityPoints from "@/views/EventManagementViews/modals/AdjustActivityPoints.vue";
 
 const form = ref({
   username: "",
@@ -144,6 +147,12 @@ const form = ref({
 const currencies = ref(["BDT", "NPR"]);
 const selectedDateFilter = ref("All");
 const randomValue = ref('');
+const showModal = ref(false)
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData);
+  // Optional: push into members list or send API request
+};
 
 const filterByDateRange = (filter) => {
   selectedDateFilter.value = filter;

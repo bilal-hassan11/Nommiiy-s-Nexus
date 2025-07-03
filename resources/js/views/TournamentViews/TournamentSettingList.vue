@@ -1,12 +1,17 @@
 <template>
+  <TournamentSettingListDisplaySettingModal v-model="showDisplaySettingModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
     <div class="col-lg-7 col-md-4 col-sm-6">
       <h2 class="form-title">Tournament</h2>
       <p class="breadcrumb">Tournament > <strong>Tournament Setting List</strong></p>
     </div>
     <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
-      <button class="btn tag-btn me-2">Display Setting</button>
-      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2">
+      <button class="btn tag-btn me-2" @click="showDisplaySettingModal = true">
+        Display Setting
+      </button>
+      <button class="btn btn-outline-success add-btn d-flex align-items-center me-2"
+              @click="this.$router.push('/add-tournament-setting-list');">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
@@ -15,7 +20,6 @@
 
   <div class="form-container">
     <div class="row gx-3 gy-3">
-      <!-- Row 1 -->
       <div class="col-md-6 col-lg-3">
         <label>Merchant</label>
         <select v-model="form.merchant" class="form-select">
@@ -94,10 +98,26 @@
 
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
 import Multiselect from "vue-multiselect";
 import {CirclePlus} from "lucide-vue-next";
+import TournamentSettingListDisplaySettingModal
+  from "@/views/TournamentViews/modals/TournamentSettingListDisplaySettingModal.vue";
+
+const showDisplaySettingModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
+
+onMounted(() => {
+  const newTournamentSetting = history.state?.newTournamentSetting;
+  if (newTournamentSetting) {
+    handleFormSubmit(newTournamentSetting);
+  }
+});
 
 const currencies = ref(["BDT", "NPR"]);
 

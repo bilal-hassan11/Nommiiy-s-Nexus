@@ -6,7 +6,7 @@
       <p class="breadcrumb">Rebate > <strong>Rebate Setting</strong></p>
     </div>
     <div class="col-lg-5 col-md-8 col-sm-6 d-flex align-items-center justify-content-end">
-      <button class="btn tag-btn me-2 ">Add</button>
+      <button class="btn tag-btn me-2" @click="this.$router.push('/add-rebate-setting');">Add</button>
     </div>
   </div>
 
@@ -86,8 +86,20 @@
 
 <script setup>
 import {Files} from "lucide-vue-next";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import Multiselect from "vue-multiselect";
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
+
+onMounted(() => {
+  const newRebateSetting = history.state?.newRebateSetting;
+  if (newRebateSetting) {
+    handleFormSubmit(newRebateSetting);
+  }
+});
 
 const currencies = ref(["BDT", "NPR"]);
 

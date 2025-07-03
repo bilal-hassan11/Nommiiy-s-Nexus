@@ -1,4 +1,6 @@
 <template>
+  <BonusReceivedGiftDispatchedModal v-model="showModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
   <!-- Left Side: Title and Breadcrumb -->
   <div class="col-lg-3 col-md-12 col-sm-12">
@@ -8,7 +10,7 @@
 
   <!-- Right Side: All buttons in one line -->
   <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap">
-    <button class="btn header-btn border-success text-success me-2 mb-2">VIP Gift Dispatch</button>
+    <button class="btn header-btn border-success text-success me-2 mb-2"  @click="showModal = true">VIP Gift Dispatch</button>
   </div>
   </div>
 
@@ -116,6 +118,14 @@
 <script setup>
 import {ref} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
+import BonusReceivedGiftDispatchedModal from "@/views/VipModeViews/modals/BonusReceivedGiftDispatchedModal.vue";
+
+const showModal = ref(false)
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 const form = ref({
   status: "All",

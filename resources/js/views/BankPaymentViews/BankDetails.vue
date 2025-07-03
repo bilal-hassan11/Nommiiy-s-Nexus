@@ -1,11 +1,14 @@
 <template>
+  <BankDetailModal v-model="showBankDetailModal" @submit="handleFormSubmit"/>
+
   <div class="row align-items-center form-header">
     <div class="col-lg-3 col-md-12 col-sm-12">
       <h2 class="form-title">Bank/Payment</h2>
       <p class="breadcrumb">Bank/Payment > <strong>Bank Details</strong></p>
     </div>
     <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap">
-      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center">
+      <button class="btn btn-outline-success add-btn d-flex align-items-center justify-content-center"
+      @click="showBankDetailModal = true">
         <CirclePlus class="me-2" size="16" stroke-width="2"/>
         Add
       </button>
@@ -265,6 +268,15 @@ import utc from "dayjs/plugin/utc";
 import isBetween from "dayjs/plugin/isBetween";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.css";
+import BankDetailModal from "@/views/BankPaymentViews/modals/BankDetailModal.vue";
+
+
+const showBankDetailModal = ref(false);
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 dayjs.extend(utc);
 dayjs.extend(isBetween);

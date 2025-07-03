@@ -4,6 +4,8 @@ import Dashboard from "@/components/dashboard/dashboard.vue";
 import MemberEdit from "@/views/MemberViews/MemberEdit.vue";
 import MemberGroup from "@/views/MemberViews/MemberGroup.vue";
 import TagManagement from "@/views/MemberViews/TagManagement.vue";
+import MemberTagSubPage from "@/views/MemberViews/modals/MemberTagSubPage.vue";
+import EditVipRanking from "@/views/VipModeViews/modals/EditVipRanking.vue";
 import MemberFund from "@/views/MemberViews/MemberFund.vue";
 import MemberOnline from "@/views/MemberViews/MemberOnline.vue";
 import MemberTrace from "@/views/MemberViews/MemberTrace.vue";
@@ -93,6 +95,44 @@ import AffiliateGroup from "@/views/AffiliateViews/AffiliateGroup.vue";
 import AffiliatePageSetting from "@/views/AffiliateViews/AffiliatePageSetting.vue";
 import AffiliateContactSetting from "@/views/AffiliateViews/AffiliateContactSetting.vue";
 import AffiliatePostbackUrl from "@/views/AffiliateViews/AffiliatePostbackUrl.vue";
+import ActivitySettingSubPage from "@/views/EventManagementViews/modals/ActivitySettingSubPage.vue";
+import AffiliateGenerateCommission from "@/views/AffiliateCommissionViews/AffiliateGenerateCommission.vue";
+import AffiliateCommissionHistory from "@/views/AffiliateCommissionViews/AffiliateCommissionHistory.vue";
+import AffiliateWithdrawal from "@/views/AffiliateCommissionViews/AffiliateWithdrawal.vue";
+import AffiliateWithdrawalHistory from "@/views/AffiliateCommissionViews/AffiliateWithdrawalHistory.vue";
+import AffiliateDeposit from "@/views/AffiliateCommissionViews/AffiliateDeposit.vue";
+import AffiliateTransferHistory from "@/views/AffiliateCommissionViews/AffiliateTransferHistory.vue";
+import AffiliateAdjustment from "@/views/AffiliateCommissionViews/AffiliateAdjustment.vue";
+import AffiliateCurrencyRateSetting from "@/views/AffiliateCommissionViews/AffiliateCurrencyRateSetting.vue";
+import GameProvider from "@/views/SystemSettingsViews/GameProvider.vue";
+import Department from "@/views/SystemSettingsViews/Department.vue";
+import Agent from "@/views/SystemSettingsViews/Agent.vue";
+import Advertisement from "@/views/SystemSettingsViews/Advertisement.vue";
+import IPWhitelist from "@/views/SystemSettingsViews/IPWhitelist.vue";
+import WebFeaturedGame from "@/views/SystemSettingsViews/WebFeaturedGame.vue";
+import ProviderSetting from "@/views/SystemSettingsViews/ProviderSetting.vue";
+import ExportList from "@/views/SystemSettingsViews/ExportList.vue";
+import LogoAndFavicon from "@/views/CMS/LogoAndFavicon.vue";
+import BannerSettings from "@/views/CMS/BannerSettings.vue";
+import AffiliateBanner from "@/views/CMS/AffiliateBanner.vue";
+import SEOMetadata from "@/views/CMS/SEOMetadata.vue";
+import SEOScriptsSettings from "@/views/CMS/SEOScriptsSettings.vue";
+import SEOFooter from "@/views/CMS/SEOFooter.vue";
+import GeneralInfo from "@/views/CMS/GeneralInfo.vue";
+import EventTrackingCode from "@/views/CMS/EventTrackingCode.vue";
+import BlogSetting from "@/views/CMS/BlogSetting.vue";
+import Roadblock from "@/views/ComplianceViews/Roadblock.vue";
+import MemberBetLimit from "@/views/ComplianceViews/MemberBetLimit.vue";
+import GroupBetLimit from "@/views/ComplianceViews/GroupBetLimit.vue";
+import VIP from "@/views/LeaderboardDataViews/VIP.vue";
+import LuckySpin from "@/views/LeaderboardDataViews/LuckySpin.vue";
+import TopReferral from "@/views/LeaderboardDataViews/TopReferral.vue";
+import AddTournamentSubPage from "@/views/TournamentViews/modals/AddTournamentSubPage.vue";
+import AddVerifyRewardSettingSubPage from "@/views/VerifyRewardViews/SubPages/AddVerifyRewardSettingSubPage.vue";
+import AddSoccerMatchPredictSettingsSubPage from "@/views/SoccerViews/modals/AddSoccerMatchPredictSettingsSubPage.vue";
+import AddAngpowSettingSubPage from "@/views/AngpowViews/modals/AddAngpowSettingSubPage.vue";
+import AddRebateSettingSubPage from "@/views/RebateViews/SubPages/AddRebateSettingSubPage.vue";
+import AccountLogSubPage from "@/views/BankPaymentViews/modals/AccountLogSubPage.vue";
 
 
 const routes = [
@@ -101,6 +141,7 @@ const routes = [
     {path: "/member-edit", name: "member-edit", component: MemberEdit},
     {path: "/member-group", name: "member-group", component: MemberGroup},
     {path: "/tag-management", name: "tag-management", component: TagManagement},
+    {path: "/new-tag-page", name: "new-tag-page", component: MemberTagSubPage},
     {path: "/member-fund", name: "member-fund", component: MemberFund},
     {path: "/member-online", name: "member-online", component: MemberOnline},
     {path: "/member-trace", name: "member-trace", component: MemberTrace},
@@ -126,12 +167,14 @@ const routes = [
 
     {path: "/vip-settings", name: "vip-settings", component: VipSettings},
     {path: "/vip-level-point-record", name: "vip-level-point-record", component: VipLevelPointRecord},
+    {path: "/edit-vip-ranking", name: "edit-vip-ranking", component: EditVipRanking},
     {path: "/bonus-received-record", name: "bonus-received-record", component: BonusReceivedRecord},
     {path: "/vip-display-settings", name: "vip-display-settings", component: VipDisplaySettings},
     {path: "/vip-settings-history", name: "vip-settings-history", component: VipSettingsHistory},
     {path: "/vip-banner-settings", name: "vip-banner-settings", component: VipBannerSettings},
 
     {path: "/activity-setting", name: "activity-setting", component: ActivitySetting},
+    {path: "/activity-setting-sub-page", name: "activity-setting-sub-page", component: ActivitySettingSubPage},
     {path: "/lucky-wheel-report", name: "lucky-wheel-report", component: LuckyWheelReport},
     {path: "/point-edited-report", name: "point-edited-report", component: PointEditedReport},
     {path: "/lucky-wheel-terms-and-conditions", name: "lucky-wheel-terms-and-conditions", component: LuckyWheelsTermsAndConditions},
@@ -152,18 +195,22 @@ const routes = [
     {path: "/referral-summary", name: "referral-summary", component: ReferralSummary},
 
     {path: "/tournament-setting-list", name: "tournament-setting-list", component: TournamentSettingList},
+    {path: "/add-tournament-setting-list", name: "add-tournament-setting-list", component: AddTournamentSubPage},
     {path: "/tournament-reward", name: "tournament-reward", component: TournamentReward},
 
     {path: "/verify-reward-settings", name: "verify-reward-settings", component: VerifyRewardSettings},
+    {path: "/add-verify-reward-settings", name: "add-verify-reward-settings", component: AddVerifyRewardSettingSubPage},
     {path: "/verify-reward-list", name: "verify-reward-list", component: VerifyRewardList},
 
     {path: "/soccer-match-predict-settings", name: "soccer-match-predict-settings", component: SoccerMatchPredictSettings},
+    {path: "/add-soccer-match-predict-settings", name: "add-soccer-match-predict-settings", component: AddSoccerMatchPredictSettingsSubPage},
     {path: "/soccer-match-predict-list", name: "soccer-match-predict-list", component: SoccerMatchPredictList},
     {path: "/soccer-match-predict-reward-history", name: "soccer-match-predict-reward-history", component: SoccerMatchPredictRewardHistory},
     {path: "/soccer-match-predict-term-and-condition", name: "soccer-match-predict-term-and-condition", component: SoccerMatchPredictTermAndCondition},
     {path: "/soccer-match-predict-match-list", name: "soccer-match-predict-match-list", component: SoccerMatchPredictMatchList},
 
     {path: "/angpow-setting", name: "angpow-setting", component: AngpowSetting},
+    {path: "/add-angpow-setting", name: "add-angpow-setting", component: AddAngpowSettingSubPage},
     {path: "/angpow-reward-history", name: "angpow-reward-history", component: AngpowRewardHistory},
     {path: "/angpow-term-and-condition", name: "angpow-term-and-condition", component: AngpowTermAndCondition},
 
@@ -171,6 +218,7 @@ const routes = [
     {path: "/provider-rebate-history", name: "provider-rebate-history", component: ProviderRebateHistory},
     {path: "/member-rebate-history", name: "member-rebate-history", component: MemberRebateHistory},
     {path: "/rebate-setting", name: "rebate-setting", component: RebateSetting},
+    {path: "/add-rebate-setting", name: "add-rebate-setting", component: AddRebateSettingSubPage},
     {path: "/rebate-disclaimer", name: "rebate-disclaimer", component: RebateDisclaimer},
 
     {path: "/member-report", name: "member-report", component: MemberReport},
@@ -196,6 +244,7 @@ const routes = [
     {path: "/transaction-record", name: "transaction-record", component: TransactionRecord},
     {path: "/member-bank-setting", name: "member-bank-setting", component: MemberBankSetting},
     {path: "/third-party-payment-platform", name: "third-party-payment-platform", component: ThirdPartyPaymentPlatform},
+    {path: "/account-log", name: "account-log", component: AccountLogSubPage},
 
     {path: "/affiliate-approval", name: "affiliate-approval", component: AffiliateApproval},
     {path: "/affiliate-list", name: "affiliate-list", component: AffiliateList},
@@ -206,6 +255,41 @@ const routes = [
     {path: "/affiliate-contact-setting", name: "affiliate-contact-setting", component: AffiliateContactSetting},
     {path: "/affiliate-postback-url", name: "affiliate-postback-url", component: AffiliatePostbackUrl},
 
+    {path: "/affiliate-generate-commission", name: "affiliate-generate-commission", component: AffiliateGenerateCommission},
+    {path: "/affiliate-commission-history", name: "affiliate-commission-history", component: AffiliateCommissionHistory},
+    {path: "/affiliate-withdrawal", name: "affiliate-withdrawal", component: AffiliateWithdrawal},
+    {path: "/affiliate-withdrawal-history", name: "affiliate-withdrawal-history", component: AffiliateWithdrawalHistory},
+    {path: "/affiliate-deposit", name: "affiliate-deposit", component: AffiliateDeposit},
+    {path: "/affiliate-transfer-history", name: "affiliate-transfer-history", component: AffiliateTransferHistory},
+    {path: "/affiliate-adjustment", name: "affiliate-adjustment", component: AffiliateAdjustment},
+    {path: "/affiliate-currency-rate-setting", name: "affiliate-currency-rate-setting", component: AffiliateCurrencyRateSetting},
+
+    {path: "/game-provider", name: "game-provider", component: GameProvider},
+    {path: "/department", name: "department", component: Department},
+    {path: "/agent", name: "agent", component: Agent},
+    {path: "/advertisement", name: "advertisement", component: Advertisement},
+    {path: "/ip-whitelist", name: "ip-whitelist", component: IPWhitelist},
+    {path: "/web-featured-game", name: "web-featured-game", component: WebFeaturedGame},
+    {path: "/provider-setting", name: "provider-setting", component: ProviderSetting},
+    {path: "/export-list", name: "export-list", component: ExportList},
+
+    {path: "/logo-favicon", name: "logo-favicon", component: LogoAndFavicon},
+    {path: "/banner-settings", name: "banner-settings", component: BannerSettings},
+    {path: "/affiliate-banner", name: "affiliate-banner", component: AffiliateBanner},
+    {path: "/seo-metadata", name: "seo-metadata", component: SEOMetadata},
+    {path: "/seo-scripts-settings", name: "seo-scripts-settings", component: SEOScriptsSettings},
+    {path: "/seo-footer", name: "seo-footer", component: SEOFooter},
+    {path: "/general-info", name: "general-info", component: GeneralInfo},
+    {path: "/event-tracking-code", name: "event-tracking-code", component: EventTrackingCode},
+    {path: "/blog-setting", name: "blog-setting", component: BlogSetting},
+
+    {path: "/roadblock", name: "roadblock", component: Roadblock},
+    {path: "/member-bet-limit", name: "member-bet-limit", component: MemberBetLimit},
+    {path: "/group-bet-limit", name: "group-bet-limit", component: GroupBetLimit},
+
+    {path: "/vip", name: "vip", component: VIP},
+    {path: "/lucky-spin", name: "lucky-spin", component: LuckySpin},
+    {path: "/top-referral", name: "top-referral", component: TopReferral},
 ];
 
 const router = createRouter({

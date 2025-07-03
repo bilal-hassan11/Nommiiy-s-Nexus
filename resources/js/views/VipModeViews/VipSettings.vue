@@ -1,4 +1,8 @@
 <template>
+  <SeasonDayModal v-model="showSeasonDayModal" @submit="handleFormSubmit" />
+  <AccumulatePointsConditionModal v-model="showAccumulatePointsConditionModal" @submit="handleFormSubmit" />
+  <HolidayDateModal v-model="showHolidayDateModal" @submit="handleFormSubmit" />
+
   <div class="row align-items-center form-header">
   <!-- Left Side: Title and Breadcrumb -->
   <div class="col-lg-3 col-md-12 col-sm-12">
@@ -8,10 +12,18 @@
 
   <!-- Right Side: All buttons in one line -->
   <div class="col-lg-9 col-md-12 col-sm-12 d-flex align-items-center justify-content-end flex-wrap">
-    <button class="btn header-btn border-success text-success me-2 mb-2">Season Day</button>
-    <button class="btn header-btn border-success text-success me-2 mb-2">Accumulate Points Condition</button>
-    <button class="btn header-btn border-secondary-subtle text-black font-600 me-2 mb-2">Vip Setting History</button>
-    <button class="btn header-btn bg-warning me-2 mb-2 font-600">Holiday Date Declaration Settings</button>
+    <button class="btn header-btn border-success text-success me-2 mb-2"
+            @click="showSeasonDayModal = true">
+      Season Day</button>
+    <button class="btn header-btn border-success text-success me-2 mb-2"
+            @click="showAccumulatePointsConditionModal = true">
+      Accumulate Points Condition</button>
+    <button class="btn header-btn border-secondary-subtle text-black font-600 me-2 mb-2"
+            @click="vipSettingsHistoryPage">
+      VIP Setting History</button>
+    <button class="btn header-btn bg-warning me-2 mb-2 font-600"
+            @click="showHolidayDateModal = true">
+      Holiday Date Declaration Settings</button>
   </div>
 </div>
 
@@ -46,6 +58,24 @@
 <script setup>
 import {ref} from "vue";
 import "vue-multiselect/dist/vue-multiselect.css";
+import { useRouter } from 'vue-router';
+import SeasonDayModal from "@/views/VipModeViews/modals/SeasonDayModal.vue";
+import AccumulatePointsConditionModal from "@/views/VipModeViews/modals/AccumulatePointsConditionModal.vue";
+import HolidayDateModal from "@/views/VipModeViews/modals/HolidayDateModal.vue";
+
+const router = useRouter();
+const showSeasonDayModal = ref(false);
+const showAccumulatePointsConditionModal = ref(false);
+const showHolidayDateModal = ref(false);
+
+function vipSettingsHistoryPage(){
+  router.push('/vip-settings-history');
+}
+
+const handleFormSubmit = (formData) => {
+  console.log("Received Form Data:", formData)
+  // Process submission (API call etc.)
+}
 
 const form = ref({
   merchant: "MJB",
