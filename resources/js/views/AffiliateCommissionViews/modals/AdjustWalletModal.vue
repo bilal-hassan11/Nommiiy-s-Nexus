@@ -7,7 +7,7 @@
           <button type="button" class="btn-close" @click="closeModal">X</button>
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submitForm">
           <div class="mb-3">
             <label class="form-label">Affiliate Username</label>
             <div class="input-group">
@@ -55,16 +55,18 @@
     </div>
   </div>
 </template>
-
 <script setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
+import axios from 'axios';
+import toastr from 'toastr';
 
+// Props and emits
 defineProps({
-  modelValue: Boolean
+  modelValue: Boolean,
 });
-
 const emit = defineEmits(['update:modelValue', 'submit']);
 
+// Form state
 const form = ref({
   username: '',
   balance: '0.00',
@@ -73,20 +75,66 @@ const form = ref({
   remark: ''
 });
 
+const isLoading = ref(false);
+const errors = ref({});
+
+// Axios base URL setup
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost/api';
+
+// Submit form
+const submitForm = async () => {
+  isLoading.value = true;
+  errors.value = {}; // Clear previous errors
+
+  const formData = new FormData();
+  Object.entries(form.value).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  try {
+    const response = await axios.post('/add-member-tag', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+    toastr.success('Wallet adjusted successfully!');
+    emit('submit', response.data);
+    closeModal();
+  } catch (error) {
+    if (error.response?.data?.errors) {
+      errors.value = error.response.data.errors;
+      // Display all validation errors in toastr
+      Object.values(errors.value).forEach(err => {
+        toastr.error(Array.isArray(err) ? err.join(', ') : err);
+      });
+    } else {
+      toastr.error('An unexpected error occurred.');
+    }
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Dummy search user
+// const searchUser = async () => {
+//   try {
+//     // Example: fetch user data
+//     const response = await axios.get(`/get-user-balance?username=${form.value.username}`);
+//     form.value.balance = response.data.balance || '0.00';
+//   } catch (e) {
+//     toastr.error('User not found or failed to fetch balance.');
+//   }
+// };
 const searchUser = () => {
   // Mock balance update - replace with real fetch
   form.value.balance = '123.45';
 };
 
-const submit = () => {
-  emit('submit', {...form.value});
-  emit('update:modelValue', false);
-};
-
+// Close modal
 const closeModal = () => {
   emit('update:modelValue', false);
 };
 </script>
+
 
 <style scoped>
 .modal-title {

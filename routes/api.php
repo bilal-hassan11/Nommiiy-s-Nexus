@@ -37,7 +37,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('members', MemberController::class);
     Route::post('/groups', [GroupController::class, 'store']);
     Route::post('/add-member', [AddMembersController::class, 'store']);
+    Route::post('/add-member-tag', [AddMembersController::class, 'store']);
 
+    Route::get('/soccer-settings', [AddMembersController::class, 'store']);
     Route::post('/deposits', [DepositController::class, 'store']);
 
     Route::post('/withdrawals', [withdrawalController::class, 'store']);
