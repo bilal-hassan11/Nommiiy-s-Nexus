@@ -29,8 +29,12 @@ use App\Http\Controllers\AffiliateGroupController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\withdrawalController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\CMSBannerApiController;
+use App\Http\Controllers\WebSettingController;
 
 
+Route::post('/banners', [CMSBannerApiController::class, 'store']);
+Route::post('/web-settings', [WebSettingController::class, 'store']); 
 // Group all routes under 'v1' prefix
 Route::group(['prefix' => 'v1'], function () {
 
@@ -47,7 +51,8 @@ Route::group(['prefix' => 'v1'], function () {
     //Adjustment
     Route::post('/bonus_rebeat_adjustments', [WalletController::class, 'bonus_rebeat_adjustment_store']);
     Route::post('/walletadjustments', [WalletController::class, 'walletadjustments']);
-
+    //CMS Work
+    //Route::post('/banners', [CMSBannerApiController::class, 'store']);
 
     Route::post('/affiliate-groups', [AffiliateGroupController::class, 'store']);
     Route::post('/affiliateslist', [AffiliateGroupController::class, 'list']);
