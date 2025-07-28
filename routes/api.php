@@ -31,10 +31,13 @@ use App\Http\Controllers\withdrawalController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CMSBannerApiController;
 use App\Http\Controllers\WebSettingController;
+use App\Http\Controllers\BannerController;
 
 
 Route::post('/banners', [CMSBannerApiController::class, 'store']);
-Route::post('/web-settings', [WebSettingController::class, 'store']); 
+Route::post('/web-settings', [WebSettingController::class, 'store']);
+Route::post('/affiliate-banners', [BannerController::class, 'store']);
+
 // Group all routes under 'v1' prefix
 Route::group(['prefix' => 'v1'], function () {
 

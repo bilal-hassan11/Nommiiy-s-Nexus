@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" style="font-size: 18px">Add Banner</h5>
+          <h5 class="modal-title" style="font-size: 18px">Add Banner()</h5>
           <button type="button" class="btn-close" style="font-size: 12px; font-weight: 600;" @click="closeModal"/>
         </div>
 
@@ -196,7 +196,7 @@ const submitForm = async () => {
   }
 
   try {
-    const response = await axios.post('/banners', formData, {
+    const response = await axios.post('/affiliate-banners', formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // Crucial for sending files
       },
