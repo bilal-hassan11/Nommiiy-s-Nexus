@@ -32,11 +32,51 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\CMSBannerApiController;
 use App\Http\Controllers\WebSettingController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\AffiliatePopUpBannerController;
+use App\Http\Controllers\EventTrackingCodeController;
+use App\Http\Controllers\GeneralInfoSettingController;
+use App\Http\Controllers\BlogTypeController;
+use App\Http\Controllers\BlogContentController;
+use App\Http\Controllers\BlogDisplaySettingController;
+use App\Http\Controllers\GlobalSeoSettingController;
 
 
 Route::post('/banners', [CMSBannerApiController::class, 'store']);
 Route::post('/web-settings', [WebSettingController::class, 'store']);
 Route::post('/affiliate-banners', [BannerController::class, 'store']);
+Route::post('/affiliate-pop-up-banners', [AffiliatePopUpBannerController::class, 'store']);
+Route::get('/event-tracking-codes', [EventTrackingCodeController::class, 'index']);
+Route::get('/general-info-settings', [GeneralInfoSettingController::class, 'show']);
+Route::put('/general-info-settings', [GeneralInfoSettingController::class, 'update']);
+
+Route::prefix('global-seo-settings')->group(function () {
+    Route::get('/', [GlobalSeoSettingController::class, 'index']); // For fetching
+    Route::post('/', [GlobalSeoSettingController::class, 'store']); // For fetching
+    
+    
+});
+
+Route::prefix('blog-types')->group(function () {
+    Route::get('/', [BlogTypeController::class, 'index']);
+    Route::post('/', [BlogTypeController::class, 'store']);
+    Route::get('/{id}', [BlogTypeController::class, 'show']);
+    Route::put('/{id}', [BlogTypeController::class, 'update']);
+    Route::delete('/{id}', [BlogTypeController::class, 'destroy']);
+});
+
+Route::prefix('blog-display-settings')->group(function () {
+    Route::get('/{id?}', [BlogDisplaySettingController::class, 'show']); // GET to retrieve (optional ID if you have multiple settings)
+    Route::post('/', [BlogDisplaySettingController::class, 'storeOrUpdate']); // POST to create or update
+});
+
+// Blog Content Routes (new)
+Route::prefix('blog-contents')->group(function () {
+    Route::get('/', [BlogContentController::class, 'index']); // Optional: for listing all blog content
+    Route::post('/', [BlogContentController::class, 'store']); // Create
+    Route::get('/{id}', [BlogContentController::class, 'show']); // Read specific
+    Route::post('/{id}', [BlogContentController::class, 'update']); // Update
+    Route::delete('/{id}', [BlogContentController::class, 'destroy']); // Delete
+});
 
 // Group all routes under 'v1' prefix
 Route::group(['prefix' => 'v1'], function () {

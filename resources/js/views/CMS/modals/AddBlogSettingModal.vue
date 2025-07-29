@@ -7,29 +7,31 @@
           <button type="button" class="btn-close" style="font-size: 12px; font-weight: 600;" @click="closeModal"/>
         </div>
 
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="submitForm" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="row">
               <div class="mb-3 col-md-4">
                 <label class="form-label">Blog Type*</label>
                 <select
-                    v-model="form.blogType"
+                    v-model="form.blogTypeId"
                     class="form-select"
-                    :class="{'is-invalid': errors.blogType}"
-                    @change="clearError('blogType')"
+                    :class="{'is-invalid': errors.blog_type_id}"
+                    @change="clearError('blog_type_id')"
                 >
                   <option value="" disabled selected>Please Select Blog Type</option>
-                  <option>Type1</option>
-                  </select>
-                <span v-if="errors.blogType" class="text-danger">{{ errors.blogType.join(', ') }}</span>
+                  <option v-for="type in blogTypes" :key="type.id" :value="type.id">
+                    {{ type.blog_type }}
+                  </option>
+                </select>
+                <span v-if="errors.blog_type_id" class="text-danger">{{ errors.blog_type_id.join(', ') }}</span>
               </div>
               <div class="mb-3 col-md-4">
                 <label>Content Type*</label>
                 <select
                     v-model="form.contentType"
                     class="form-select"
-                    :class="{'is-invalid': errors.contentType}"
-                    @change="clearError('contentType')"
+                    :class="{'is-invalid': errors.content_type}"
+                    @change="clearError('content_type')"
                 >
                   <option value="" disabled>Please Select</option>
                   <option value="Home">Home</option>
@@ -41,7 +43,7 @@
                   <option value="Login">Login</option>
                   <option value="Signup">Signup</option>
                 </select>
-                <span v-if="errors.contentType" class="text-danger">{{ errors.contentType.join(', ') }}</span>
+                <span v-if="errors.content_type" class="text-danger">{{ errors.content_type.join(', ') }}</span>
               </div>
               <div class="mb-3 col-md-4">
                 <label class="form-label">Status</label>
@@ -59,13 +61,13 @@
               <div class="mb-3 col-md-4">
                 <label class="form-label">Publish Date</label>
                 <input
-                    v-model="form.startDate"
+                    v-model="form.publishDate"
                     type="date"
                     class="form-control"
-                    :class="{'is-invalid': errors.startDate}"
-                    @blur="clearError('startDate')"
+                    :class="{'is-invalid': errors.publish_date}"
+                    @blur="clearError('publish_date')"
                 />
-                <span v-if="errors.startDate" class="text-danger">{{ errors.startDate.join(', ') }}</span>
+                <span v-if="errors.publish_date" class="text-danger">{{ errors.publish_date.join(', ') }}</span>
               </div>
               <div class="mb-3 col-md-4">
                 <label class="form-label">Author</label>
@@ -94,13 +96,13 @@
                     v-model="form.urlTitle"
                     type="text"
                     class="form-control"
-                    :class="{'is-invalid': errors.urlTitle}"
-                    @blur="clearError('urlTitle')"
+                    :class="{'is-invalid': errors.url_title}"
+                    @blur="clearError('url_title')"
                 />
                 <p style="font-size: 10px; font-weight: 500; margin: 10px 1px 10px 4px; color: #d87a00">
                   Example: blog title
                 </p>
-                <span v-if="errors.urlTitle" class="text-danger">{{ errors.urlTitle.join(', ') }}</span>
+                <span v-if="errors.url_title" class="text-danger">{{ errors.url_title.join(', ') }}</span>
               </div>
               <div class="mb-3 col-md-11">
                 <label class="form-label checkbox-label">Popular</label>
@@ -139,10 +141,10 @@
                       v-model="form.localizedContent[activeTab].title"
                       type="text"
                       class="form-control"
-                      :class="{'is-invalid': errors[`localizedContent.${activeTab}.title`]}"
-                      @blur="clearError(`localizedContent.${activeTab}.title`)"
+                      :class="{'is-invalid': errors[`localized_content.${activeTab}.title`]}"
+                      @blur="clearError(`localized_content.${activeTab}.title`)"
                   />
-                  <span v-if="errors[`localizedContent.${activeTab}.title`]" class="text-danger">{{ errors[`localizedContent.${activeTab}.title`].join(', ') }}</span>
+                  <span v-if="errors[`localized_content.${activeTab}.title`]" class="text-danger">{{ errors[`localized_content.${activeTab}.title`].join(', ') }}</span>
                 </div>
               </div>
 
@@ -153,13 +155,13 @@
                       v-model="form.localizedContent[activeTab].description"
                       type="text"
                       class="form-control"
-                      :class="{'is-invalid': errors[`localizedContent.${activeTab}.description`]}"
-                      @blur="clearError(`localizedContent.${activeTab}.description`)"
+                      :class="{'is-invalid': errors[`localized_content.${activeTab}.description`]}"
+                      @blur="clearError(`localized_content.${activeTab}.description`)"
                   />
                   <p style="font-size: 10px; font-weight: 500; margin: 10px 1px 10px 4px; color: #d87a00">
                     Maximum 300 characters
                   </p>
-                  <span v-if="errors[`localizedContent.${activeTab}.description`]" class="text-danger">{{ errors[`localizedContent.${activeTab}.description`].join(', ') }}</span>
+                  <span v-if="errors[`localized_content.${activeTab}.description`]" class="text-danger">{{ errors[`localized_content.${activeTab}.description`].join(', ') }}</span>
                 </div>
               </div>
 
@@ -170,12 +172,13 @@
                       type="file"
                       @change="onLocalizedFileChange($event, activeTab, 'mobileImage')"
                       class="form-control"
-                      :class="{'is-invalid': errors[`localizedContent.${activeTab}.mobileImage`]}"
+                      :class="{'is-invalid': errors[`localized_content.${activeTab}.mobile_image`]}"
+                      accept="image/*"
                   />
                   <small style="font-size: 10px; font-weight: 500; margin: 10px 1px 10px 4px; color: #d87a00">
                     Image Size: 500 x 300
                   </small>
-                  <span v-if="errors[`localizedContent.${activeTab}.mobileImage`]" class="text-danger">{{ errors[`localizedContent.${activeTab}.mobileImage`].join(', ') }}</span>
+                  <span v-if="errors[`localized_content.${activeTab}.mobile_image`]" class="text-danger">{{ errors[`localized_content.${activeTab}.mobile_image`].join(', ') }}</span>
                 </div>
                 <div class="mb-3 col-md-11">
                   <label class="form-label">Content Image</label>
@@ -183,21 +186,22 @@
                       type="file"
                       @change="onLocalizedFileChange($event, activeTab, 'webImage')"
                       class="form-control"
-                      :class="{'is-invalid': errors[`localizedContent.${activeTab}.webImage`]}"
+                      :class="{'is-invalid': errors[`localized_content.${activeTab}.web_image`]}"
+                      accept="image/*"
                   />
                   <small style="font-size: 10px; font-weight: 500; margin: 10px 1px 10px 4px; color: #d87a00">
                     Image Size: 500 x 300
                   </small>
-                  <span v-if="errors[`localizedContent.${activeTab}.webImage`]" class="text-danger">{{ errors[`localizedContent.${activeTab}.webImage`].join(', ') }}</span>
+                  <span v-if="errors[`localized_content.${activeTab}.web_image`]" class="text-danger">{{ errors[`localized_content.${activeTab}.web_image`].join(', ') }}</span>
                 </div>
                 <div class="mb-3 col-md-11">
                   <label class="form-label">Content</label>
                   <TipTapEditor
                       v-model="form.localizedContent[activeTab].content"
-                      :class="{'is-invalid': errors[`localizedContent.${activeTab}.content`]}"
-                      @blur="clearError(`localizedContent.${activeTab}.content`)"
+                      :class="{'is-invalid': errors[`localized_content.${activeTab}.content`]}"
+                      @blur="clearError(`localized_content.${activeTab}.content`)"
                   />
-                   <span v-if="errors[`localizedContent.${activeTab}.content`]" class="text-danger">{{ errors[`localizedContent.${activeTab}.content`].join(', ') }}</span>
+                  <span v-if="errors[`localized_content.${activeTab}.content`]" class="text-danger">{{ errors[`localized_content.${activeTab}.content`].join(', ') }}</span>
                 </div>
               </div>
             </div>
@@ -206,8 +210,8 @@
           <div class="modal-footer d-flex align-items-center justify-content-center">
             <button type="button" class="btn cancel-btn" @click="closeModal" :disabled="isLoading">Cancel</button>
             <button type="submit" class="btn submit-btn" :disabled="isLoading">
-                <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                {{ isLoading ? 'Saving...' : 'Save' }}
+              <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isLoading ? 'Saving...' : 'Save' }}
             </button>
           </div>
         </form>
@@ -217,7 +221,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue'
+import {onMounted, ref} from 'vue';
 import TipTapEditor from "@/components/editor/TipTapEditor.vue"; // Ensure this path is correct
 import axios from 'axios'; // Import Axios
 import toastr from 'toastr'; // Import Toastr
@@ -225,20 +229,23 @@ import toastr from 'toastr'; // Import Toastr
 // Props and Emits
 defineProps({
   modelValue: Boolean
-})
+});
 
-const emit = defineEmits(['update:modelValue', 'submit'])
+const emit = defineEmits(['update:modelValue', 'submit']);
 
 // Tabs for localized content
-const tabs = ['en-bd', 'bn-bd', 'en-np', 'ne-np']
-const activeTab = ref('en-bd')
+const tabs = ['en-bd', 'bn-bd', 'en-np', 'ne-np'];
+const activeTab = ref('en-bd');
+
+// Blog types for the dropdown
+const blogTypes = ref([]);
 
 // Initial form state
 const initialForm = {
-  blogType: "",
+  blogTypeId: "", // Changed from blogType to blogTypeId to align with backend foreign key
   contentType: "",
   status: 'Active',
-  startDate: '',
+  publishDate: '', // Renamed from startDate for clarity and backend alignment
   author: '',
   index: null, // Changed to null for number input
   urlTitle: '',
@@ -257,28 +264,41 @@ const isLoading = ref(false); // Controls loading state of the submit button
 
 // Handles file input changes for localized images
 const onLocalizedFileChange = (event, tab, key) => {
-  const file = event.target.files[0]
+  const file = event.target.files[0];
   if (file) {
     form.value.localizedContent[tab][key] = file;
-    clearError(`localizedContent.${tab}.${key}`); // Clear error for this specific file input
+    // Clear the specific error for this file input, adjusting for backend naming (e.g., mobile_image)
+    const backendKey = key === 'mobileImage' ? 'mobile_image' : 'web_image';
+    clearError(`localized_content.${tab}.${backendKey}`);
   } else {
     form.value.localizedContent[tab][key] = null;
   }
-}
+};
 
-// Sets default start date to current month's first day
+// Sets default publish date to current month's first day
 const setDefaultDates = () => {
   const today = new Date();
   const yyyy = today.getFullYear();
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const dd = String(today.getDate()).padStart(2, '0');
 
-  form.value.startDate = `${yyyy}-${mm}-01`;
-  // Assuming endDate is not required for blog content based on template
+  form.value.publishDate = `${yyyy}-${mm}-${dd}`; // Set to today's date, or first day of month if that's preferred.
 };
 
-// Call setDefaultDates when the component is mounted
+// Fetches blog types from the backend to populate the dropdown
+const fetchBlogTypes = async () => {
+  try {
+    const response = await axios.get('/blog-types'); // Assuming you have a /api/blog-types endpoint
+    blogTypes.value = response.data;
+  } catch (error) {
+    console.error('Error fetching blog types:', error);
+    toastr.error('Failed to load blog types.');
+  }
+};
+
+// Call fetchBlogTypes and setDefaultDates when the component is mounted
 onMounted(() => {
+  fetchBlogTypes();
   setDefaultDates();
 });
 
@@ -291,9 +311,9 @@ const resetForm = () => {
 
 // Clears specific error messages for a given field
 const clearError = (field) => {
-    if (errors.value[field]) {
-        errors.value[field] = [];
-    }
+  if (errors.value[field]) {
+    errors.value[field] = [];
+  }
 };
 
 // Configure Axios base URL to point to your Laravel API
@@ -306,27 +326,30 @@ const submitForm = async () => {
 
   const formData = new FormData();
 
-  // Append top-level form fields
-  for (const key in form.value) {
-    if (key !== 'localizedContent') {
-      const value = form.value[key];
-      if (value !== null && value !== undefined && value !== '') {
-        formData.append(key, value);
-      }
-    }
-  }
+  // Append top-level form fields, matching backend expected names
+  formData.append('blog_type_id', form.value.blogTypeId);
+  formData.append('content_type', form.value.contentType);
+  formData.append('status', form.value.status);
+  formData.append('publish_date', form.value.publishDate);
+  formData.append('author', form.value.author || ''); // Send empty string if null
+  formData.append('index', form.value.index || ''); // Send empty string if null
+  formData.append('url_title', form.value.urlTitle || ''); // Send empty string if null
+  formData.append('popular', form.value.popular ? 1 : 0); // Convert boolean to 0 or 1 for backend
 
   // Append localized content fields, including files
   for (const lang in form.value.localizedContent) {
-    for (const subKey in form.value.localizedContent[lang]) {
-      const value = form.value.localizedContent[lang][subKey];
-      const formKey = `localizedContent[${lang}][${subKey}]`;
+    const localizedData = form.value.localizedContent[lang];
 
-      if (value instanceof File) {
-        formData.append(formKey, value);
-      } else if (value !== null && value !== undefined && value !== '') {
-        formData.append(formKey, value);
-      }
+    formData.append(`localized_content[${lang}][title]`, localizedData.title || '');
+    formData.append(`localized_content[${lang}][description]`, localizedData.description || '');
+    formData.append(`localized_content[${lang}][content]`, localizedData.content || '');
+
+    // Append file objects, mapping frontend names (mobileImage, webImage) to backend (mobile_image, web_image)
+    if (localizedData.mobileImage instanceof File) {
+      formData.append(`localized_content[${lang}][mobile_image]`, localizedData.mobileImage);
+    }
+    if (localizedData.webImage instanceof File) {
+      formData.append(`localized_content[${lang}][web_image]`, localizedData.webImage);
     }
   }
 
@@ -341,6 +364,7 @@ const submitForm = async () => {
     closeModal(); // Close the modal and reset form
   } catch (error) {
     if (error.response && error.response.status === 422) {
+      // Laravel validation errors
       errors.value = error.response.data.errors; // Store validation messages
       toastr.error('Please correct the highlighted errors.');
     } else {

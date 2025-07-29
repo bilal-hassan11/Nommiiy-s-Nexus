@@ -119,15 +119,48 @@
 
       <div class="col-lg-12 d-flex justify-content-end gap-2 mt-3 mt-lg-0">
         <button @click="clearForm" class="clear-btn btn btn-outline-dark">Clear</button>
-        <button class="search-btn btn btn-primary text-dark">Search</button>
+        <button @click="searchRecords" class="search-btn btn btn-primary text-dark" :disabled="isLoading">
+            <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            {{ isLoading ? 'Searching...' : 'Search' }}
+        </button>
       </div>
     </div>
   </div>
 
   <div class="form-container mt-2">
-    <div class="no-records mt-5 text-center">
+    <div v-if="isLoading" class="d-flex justify-content-center align-items-center py-5">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="ms-2 text-muted">Loading records...</p>
+    </div>
+    <div v-else-if="records.length === 0" class="no-records mt-5 text-center">
       <Files stroke-width="2" size="50"></Files>
-      <p class="mt-2 text-muted">No Records</p>
+      <p class="mt-2 text-muted">No Records Found</p>
+    </div>
+    <div v-else>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Merchant</th>
+                    <th>Platform</th>
+                    <th>Currency</th>
+                    <th>Tracker</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="record in records" :key="record.id">
+                    <td>{{ record.id }}</td>
+                    <td>{{ record.merchant }}</td>
+                    <td>{{ record.platform.join(', ') }}</td> <td>{{ record.currency }}</td>
+                    <td>{{ record.tracker.join(', ') }}</td> <td>{{ record.status }}</td>
+                    <td>{{ new Date(record.created_at).toLocaleDateString() }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
   </div>
 </template>
@@ -135,22 +168,28 @@
 
 <script setup>
 import {Files} from "lucide-vue-next";
-import {ref} from "vue";
+import {onMounted, ref} from "vue"; // Import onMounted
 import MasterTrackerModal from "@/views/CMS/modals/MasterTrackerModal.vue";
 import EventLogModal from "@/views/CMS/modals/EventLogModal.vue";
 import Multiselect from "vue-multiselect";
+import axios from 'axios'; // Import Axios
+import toastr from 'toastr'; // Import Toastr
 
 const showMasterTrackerModal = ref(false);
 const showEventLogModal = ref(false);
 
+const records = ref([]); // To store fetched records
+const isLoading = ref(false); // To manage loading state for search
+
 const handleFormSubmit = (formData) => {
-  console.log("Received Form Data:", formData)
-  // Process submission (API call etc.)
+  console.log("Received Form Data from Modal:", formData)
+  // You might re-fetch the records after a modal submission if it impacts the list
+  searchRecords();
 }
 
 const getDefaultDates = () => {
   const today = new Date();
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -160,39 +199,40 @@ const getDefaultDates = () => {
   };
 
   return {
-    firstDay: formatDate(firstDay),
+    firstDayOfMonth: formatDate(firstDayOfMonth),
     today: formatDate(today),
   };
 };
 
-const {firstDay, today} = getDefaultDates();
-const platforms = ref(["Web", "Mobile"]);
-const trackers = ref(["Meta Prize", "Google Analytics", "Kwai Pixel", "TikTok Pixel", "Appsfiyer"]);
-const selectedDateFilter = ref("All");
+const {firstDayOfMonth, today} = getDefaultDates(); // Renamed to clearly reflect "This Month" default
+const platforms = ref(["Web", "Mobile", "Android", "iOS"]); // Added more platforms
+const trackers = ref(["Meta Prize", "Google Analytics", "Kwai Pixel", "TikTok Pixel", "Appsfiyer", "Facebook Pixel"]); // Added more trackers
 
 const form = ref({
-  merchant: "MJB",
-  platform: ["Web", "Mobile"],
+  merchant: "All", // Default to All for search
+  platform: [], // Default to empty array for Multiselect, meaning "all" when nothing is selected
   currency: "All",
-  tracker: ["Meta Prize", "Google Analytics", "Kwai Pixel", "TikTok Pixel", "Appsfiyer"],
-  createdAt: firstDay,
+  tracker: [], // Default to empty array for Multiselect
+  createdAt: firstDayOfMonth, // Default to first day of current month
   status: "All",
-  completedAt: today,
+  completedAt: today, // Default to today's date
 });
 
-const clearForm = () => {
-  form.value.merchant = "MJB";
-  form.value.platform = ["Web", "Mobile"];
-  form.value.currency = "All";
-  form.value.tracker = ["Meta Prize", "Google Analytics", "Kwai Pixel", "TikTok Pixel", "Appsfiyer"];
-  form.value.status = "All";
-  form.value.createdAt = firstDay;
-  form.value.completedAt = today;
-  selectedDateFilter.value = "All";
-  activeRange.value = 'This Month';
-};
+const activeRange = ref('This Month'); // Default active range
 
-const activeRange = ref('This Month');
+const clearForm = () => {
+  form.value.merchant = "All";
+  form.value.platform = []; // Clear multiselect
+  form.value.currency = "All";
+  form.value.tracker = []; // Clear multiselect
+  form.value.status = "All";
+  // Reset dates to current month's default
+  const {firstDayOfMonth: defaultFirstDay, today: defaultToday} = getDefaultDates();
+  form.value.createdAt = defaultFirstDay;
+  form.value.completedAt = defaultToday;
+  activeRange.value = 'This Month';
+  records.value = []; // Clear displayed records
+};
 
 const filterByDateRange = (range) => {
   activeRange.value = range;
@@ -215,12 +255,12 @@ const filterByDateRange = (range) => {
     form.value.completedAt = formatDate(yesterday);
   } else if (range === 'This Week') {
     const firstDayOfWeek = new Date(today);
-    firstDayOfWeek.setDate(today.getDate() - today.getDay() + 1);
+    firstDayOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Adjust for Sunday being 0
     form.value.createdAt = formatDate(firstDayOfWeek);
     form.value.completedAt = formatDate(today);
   } else if (range === 'Last Week') {
     const lastWeekEnd = new Date(today);
-    lastWeekEnd.setDate(today.getDate() - today.getDay());
+    lastWeekEnd.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -7 : 0)); // End of last week
     const lastWeekStart = new Date(lastWeekEnd);
     lastWeekStart.setDate(lastWeekEnd.getDate() - 6);
     form.value.createdAt = formatDate(lastWeekStart);
@@ -236,10 +276,60 @@ const filterByDateRange = (range) => {
     form.value.completedAt = formatDate(lastDayLastMonth);
   }
 };
+
+// Configure Axios base URL
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
+
+// Method to search records
+const searchRecords = async () => {
+  isLoading.value = true;
+  records.value = []; // Clear previous results
+
+  try {
+    // Construct query parameters
+    const params = { ...form.value };
+
+    // Convert array fields to comma-separated strings for URL params
+    if (params.platform && Array.isArray(params.platform)) {
+      params.platform = params.platform.join(',');
+    }
+    if (params.tracker && Array.isArray(params.tracker)) {
+      params.tracker = params.tracker.join(',');
+    }
+
+    // Remove 'All' or empty array values from parameters to avoid sending them to backend if not needed for filtering
+    for (const key in params) {
+        if (params[key] === 'All' || (Array.isArray(params[key]) && params[key].length === 0)) {
+            delete params[key];
+        }
+    }
+
+    const response = await axios.get('/event-tracking-codes', { params });
+    records.value = response.data; // Assuming backend returns an array of records
+    if (records.value.length === 0) {
+        toastr.info('No records found matching your criteria.');
+    } else {
+        toastr.success(`${records.value.length} record(s) found!`);
+    }
+  } catch (error) {
+    console.error('Error fetching records:', error);
+    toastr.error('Failed to fetch records. Please try again.');
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+// Initial search when component is mounted (optional, but good for default view)
+onMounted(() => {
+  filterByDateRange('This Month'); // Set default date range
+  searchRecords(); // Perform initial search
+});
 </script>
 
 
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 <style scoped>
+/* Ensure multiselect styles are visible */
 .form-header {
   padding-right: 10px;
 }
@@ -329,5 +419,40 @@ input, select {
   border: 1px solid #f4c938 !important;
   color: #f4c938 !important;
   background: #faeecd !important;
+}
+
+/* Specific styles for vue-multiselect to match your design */
+.multiselect {
+  font-size: 13px;
+  min-height: 35px; /* Adjust height to match other inputs */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: none;
+}
+.multiselect__select {
+  height: 33px; /* Match adjusted min-height */
+  top: -1px; /* Adjust positioning */
+}
+.multiselect__tags {
+  min-height: 33px; /* Match adjusted min-height */
+  border: none; /* Remove internal border */
+  padding-top: 5px; /* Adjust padding */
+}
+.multiselect__input, .multiselect__single {
+  font-size: 13px;
+  height: 25px; /* Adjust input height */
+  margin-bottom: 0;
+  padding-top: 0;
+}
+.multiselect__option--highlight {
+  background: #f4c938; /* Highlight color for options */
+  color: #fff;
+}
+.multiselect__tag {
+  background-color: #f1c40f; /* Color for selected tags */
+  color: #000;
+}
+.multiselect__tag-icon:after {
+  color: #000; /* Color for tag close icon */
 }
 </style>
