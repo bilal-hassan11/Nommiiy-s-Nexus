@@ -89,7 +89,7 @@ const submitForm = async () => {
   errors.value = {}; // Clear all previous errors before a new submission
 
   try {
-    const response = await axios.post('/register-name-blacklists', form.value);
+    const response = await axios.post('/register-name-blac klists', form.value);
 
     toastr.success(response.data.message || 'Blacklist entry created successfully!');
     emit('blacklistEntryCreated', response.data.blacklist); // Emit event to parent with new data
