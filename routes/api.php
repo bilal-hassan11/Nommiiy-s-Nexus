@@ -39,6 +39,8 @@ use App\Http\Controllers\BlogTypeController;
 use App\Http\Controllers\BlogContentController;
 use App\Http\Controllers\BlogDisplaySettingController;
 use App\Http\Controllers\GlobalSeoSettingController;
+use App\Http\Controllers\CountryRestrictionController;
+use App\Http\Controllers\RegisterNameBlacklistController;
 
 
 Route::post('/banners', [CMSBannerApiController::class, 'store']);
@@ -49,11 +51,21 @@ Route::get('/event-tracking-codes', [EventTrackingCodeController::class, 'index'
 Route::get('/general-info-settings', [GeneralInfoSettingController::class, 'show']);
 Route::put('/general-info-settings', [GeneralInfoSettingController::class, 'update']);
 
+Route::prefix('country-restrictions')->group(function () {
+    Route::get('/', [CountryRestrictionController::class, 'index']); // To get a list of restrictions
+    Route::post('/', [CountryRestrictionController::class, 'store']); // To get a list of restrictions
+    
+});
+
+Route::prefix('register-name-blacklists')->group(function () {
+    Route::get('/', [RegisterNameBlacklistController::class, 'index']); // For listing
+    Route::post('/', [RegisterNameBlacklistController::class, 'store']); // For listing
+   
+});
+
 Route::prefix('global-seo-settings')->group(function () {
     Route::get('/', [GlobalSeoSettingController::class, 'index']); // For fetching
     Route::post('/', [GlobalSeoSettingController::class, 'store']); // For fetching
-    
-    
 });
 
 Route::prefix('blog-types')->group(function () {
