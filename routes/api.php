@@ -41,6 +41,8 @@ use App\Http\Controllers\BlogDisplaySettingController;
 use App\Http\Controllers\GlobalSeoSettingController;
 use App\Http\Controllers\CountryRestrictionController;
 use App\Http\Controllers\RegisterNameBlacklistController;
+use App\Http\Controllers\MemberTagController;
+use App\Http\Controllers\MemberGroupController;
 
 
 Route::post('/banners', [CMSBannerApiController::class, 'store']);
@@ -50,6 +52,19 @@ Route::post('/affiliate-pop-up-banners', [AffiliatePopUpBannerController::class,
 Route::get('/event-tracking-codes', [EventTrackingCodeController::class, 'index']);
 Route::get('/general-info-settings', [GeneralInfoSettingController::class, 'show']);
 Route::put('/general-info-settings', [GeneralInfoSettingController::class, 'update']);
+
+//Route::post('/membergroups', [MemberGroupController::class, 'store']);
+
+Route::prefix('membergroups')->group(function () {
+    Route::get('/', [MemberGroupController::class, 'index']); // For listing existing groups
+    Route::post('/', [MemberGroupController::class, 'store']); // For creating new groups
+});
+
+// New: Member Tag Routes
+Route::prefix('member-tags')->group(function () { // Changed route prefix for clarity
+    Route::get('/', [MemberTagController::class, 'index']); // For listing existing tags
+    Route::post('/', [MemberTagController::class, 'store']); // For creating new tags
+});
 
 Route::prefix('country-restrictions')->group(function () {
     Route::get('/', [CountryRestrictionController::class, 'index']); // To get a list of restrictions
@@ -90,11 +105,13 @@ Route::prefix('blog-contents')->group(function () {
     Route::delete('/{id}', [BlogContentController::class, 'destroy']); // Delete
 });
 
+Route::post('/add-member', [AddMembersController::class, 'store']);
+
 // Group all routes under 'v1' prefix
 Route::group(['prefix' => 'v1'], function () {
 
     Route::apiResource('members', MemberController::class);
-    Route::post('/groups', [GroupController::class, 'store']);
+    //Route::post('/groups', [GroupController::class, 'store']);
     Route::post('/add-member', [AddMembersController::class, 'store']);
     Route::post('/add-member-tag', [AddMembersController::class, 'store']);
 

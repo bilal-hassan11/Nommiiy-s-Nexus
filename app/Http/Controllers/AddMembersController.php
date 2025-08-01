@@ -2,61 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Members;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+// use App\Models\User; // Uncomment this in a real application
 
-class AddMembersController extends Controller
+class AddMemberController extends Controller
 {
+    /**
+     * Handle the form submission to add a new member.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
-    {
-        // //dd($request->all());
-        // // 1. Validate the incoming request data
-        // $validatedData = $request->validate([
-        //     'email' => 'required|email|unique:members',
-        //     'currency' => 'required|string',
-        //     'countryCode' => 'required|string',
-        //     'mobileNumber' => 'required|string',
-        //     'fullName' => 'required|string',
-        //     'username' => 'required|string|unique:members',
-        //     'newPassword' => 'required|string|min:8',
-        //     'forcePasswordChange' => 'boolean',
-        //     'confirmPassword' => 'required|string|same:newPassword',
-        //     'bank' => 'nullable|string',
-        //     'accountNumber' => 'nullable|string',
-        //     'accountName' => 'nullable|string',
-        //     'bankBranch' => 'nullable|string',
-        //     'referralCode' => 'nullable|string',
-        //     'affiliateLogin' => 'nullable|string',
+    {   
+        dd($request->all());
+        // 1. Validate the incoming request data.
+        // Laravel's validator is very powerful and handles many common cases automatically.
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'currency' => ['required', 'string', 'in:BDT,NPR'],
+            'countryCode' => ['required', 'string'],
+            'mobileNumber' => ['required', 'string'],
+            'fullName' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
+            'newPassword' => ['required', 'string', 'min:8', 'confirmed'],
+            'confirmPassword' => ['required', 'string'],
+            'forcePasswordChange' => ['boolean'],
+            'bank' => ['nullable', 'string', 'max:255'],
+            'accountNumber' => ['nullable', 'string', 'max:255'],
+            'accountName' => ['nullable', 'string', 'max:255'],
+            'bankBranch' => ['nullable', 'string', 'max:255'],
+            'referralCode' => ['nullable', 'string', 'max:255'],
+            'affiliateLogin' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        // 2. Data is now validated. In a real-world scenario, you would proceed
+        // with saving the user to the database.
+        // The `unique:users,email` and `unique:users,username` rules
+        // automatically check for existing users.
+        
+        // Example of creating a new user model and saving to the database:
+        // $user = User::create([
+        //     'email' => $request->email,
+        //     'currency' => $request->currency,
+        //     'country_code' => $request->countryCode,
+        //     'mobile_number' => $request->mobileNumber,
+        //     'full_name' => $request->fullName,
+        //     'username' => $request->username,
+        //     'password' => bcrypt($request->newPassword), // Always hash passwords!
+        //     'force_password_change' => $request->boolean('forcePasswordChange'),
+        //     'bank' => $request->bank,
+        //     'account_number' => $request->accountNumber,
+        //     'account_name' => $request->accountName,
+        //     'bank_branch' => $request->bankBranch,
+        //     'referral_code' => $request->referralCode,
+        //     'affiliate_login' => $request->affiliateLogin,
         // ]);
 
-        // // 2. Hash the password
-        // //$hashedPassword = bcrypt($validatedData['newPassword']);
-
-        // // 3. Insert data directly into the database using DB::table()
-        // DB::table('member')->insert([
-        //     'email' => $validatedData['email'],
-        //     'currency' => $validatedData['currency'],
-        //     'country_code' => $validatedData['countryCode'],
-        //     'mobile_number' => $validatedData['mobileNumber'],
-        //     'full_name' => $validatedData['fullName'],
-        //     'username' => $validatedData['username'],
-        //     'password' => $validatedData['newPassword'],
-        //     'force_password_change' => $validatedData['forcePasswordChange'] ,
-        //     'bank' => $validatedData['bank'],
-        //     'account_number' => $validatedData['accountNumber'],
-        //     'account_name' => $validatedData['accountName'],
-        //     'bank_branch' => $validatedData['bankBranch'],
-        //     'referral_code' => $validatedData['referralCode'],
-        //     'affiliate_login' => $validatedData['affiliateLogin'],
-        //     'created_at' => now(), // Add created_at and updated_at
-        //     'updated_at' => now(),
-        // ]);
-
-        // 4. Return a response
+        // 3. Return a success response.
         return response()->json([
-            'message' => 'Member created successfully',
-        ], 201);
+            'message' => 'Member added successfully!',
+            'member' => [
+                'email' => $request->email,
+                'fullName' => $request->fullName,
+                'username' => $request->username,
+            ]
+        ], 201); // 201 Created status code is appropriate for resource creation.
     }
 }
